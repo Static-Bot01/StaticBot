@@ -61,24 +61,26 @@ export default function Navbar() {
             <button
               onClick={() => setLang("de")}
               aria-pressed={lang === "de"}
-              className={`px-2 py-1 text-xs font-semibold rounded-md transition ${
+              aria-label="Deutsch"
+              className={`px-2 py-1 text-base leading-none rounded-md transition ${
                 lang === "de"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-primary opacity-100"
+                  : "opacity-50 hover:opacity-100"
               }`}
             >
-              DE
+              <span aria-hidden="true">🇩🇪</span>
             </button>
             <button
               onClick={() => setLang("en")}
               aria-pressed={lang === "en"}
-              className={`px-2 py-1 text-xs font-semibold rounded-md transition ${
+              aria-label="English"
+              className={`px-2 py-1 text-base leading-none rounded-md transition ${
                 lang === "en"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-primary opacity-100"
+                  : "opacity-50 hover:opacity-100"
               }`}
             >
-              EN
+              <span aria-hidden="true">🇬🇧</span>
             </button>
           </div>
         </div>
