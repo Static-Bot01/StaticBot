@@ -1,7 +1,20 @@
+"use client";
+
 import Link from "next/link";
 import { Bell, Globe, Bot } from "lucide-react";
+import { useLanguage } from "./LanguageProvider";
 
 export default function Navbar() {
+  const { lang, setLang, t } = useLanguage();
+
+  const menu = [
+    { label: t.nav.home, href: "/" },
+    { label: t.nav.features, href: "/features" },
+    { label: t.nav.statistics, href: "/statistiken" },
+    { label: t.nav.partner, href: "/partner" },
+    { label: t.nav.faq, href: "/faq" },
+  ];
+
   return (
     <nav className="sticky top-0 z-50 flex justify-center px-4 pt-6">
       <div className="flex items-center justify-between w-full max-w-6xl gap-4 px-4 py-3 border border-border bg-card/70 rounded-2xl backdrop-blur-xl">
@@ -13,20 +26,14 @@ export default function Navbar() {
           <div className="leading-tight">
             <h1 className="text-base font-bold text-foreground">StaticBots</h1>
             <p className="text-[10px] font-mono tracking-[0.2em] text-muted-foreground">
-              ALL-IN-ONE
+              {t.nav.tagline}
             </p>
           </div>
         </Link>
 
         {/* Center menu */}
         <div className="hidden md:flex items-center gap-1 p-1 border border-border rounded-xl bg-muted/40">
-          {[
-            { label: "Home", href: "/" },
-            { label: "Features", href: "/features" },
-            { label: "Statistiken", href: "/statistiken" },
-            { label: "Partner", href: "/partner" },
-            { label: "FAQ", href: "/faq" },
-          ].map((item) => (
+          {menu.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -40,18 +47,40 @@ export default function Navbar() {
         {/* Right actions */}
         <div className="flex items-center gap-2 sm:gap-3">
           <button
-            aria-label="Benachrichtigungen"
+            aria-label={t.nav.notifications}
             className="hidden sm:flex text-muted-foreground transition hover:text-foreground"
           >
             <Bell className="w-5 h-5" />
           </button>
-          <button
-            aria-label="Sprache wählen"
-            className="hidden sm:flex items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground"
+          <div
+            role="group"
+            aria-label={t.nav.chooseLanguage}
+            className="flex items-center gap-1 p-1 border border-border rounded-lg bg-muted/40"
           >
-            <Globe className="w-4 h-4" />
-            DE
-          </button>
+            <Globe className="w-4 h-4 ml-1 text-muted-foreground" aria-hidden="true" />
+            <button
+              onClick={() => setLang("de")}
+              aria-pressed={lang === "de"}
+              className={`px-2 py-1 text-xs font-semibold rounded-md transition ${
+                lang === "de"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              DE
+            </button>
+            <button
+              onClick={() => setLang("en")}
+              aria-pressed={lang === "en"}
+              className={`px-2 py-1 text-xs font-semibold rounded-md transition ${
+                lang === "en"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              EN
+            </button>
+          </div>
         </div>
       </div>
     </nav>

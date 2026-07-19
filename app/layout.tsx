@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import { LanguageProvider } from "./components/LanguageProvider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -30,8 +31,10 @@ export default function RootLayout({
       className={`h-full antialiased bg-background ${spaceGrotesk.variable} ${geistMono.variable}`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
-        <Navbar />
-        <main className="flex-1">{children}</main>
+        <LanguageProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+        </LanguageProvider>
       </body>
     </html>
   );
