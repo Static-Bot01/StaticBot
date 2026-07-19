@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bell, Globe, LayoutGrid, ArrowUpRight, Bot } from "lucide-react";
+import { Bell, Globe, Bot } from "lucide-react";
 
 export default function Navbar() {
   return (
@@ -51,14 +51,6 @@ export default function Navbar() {
           >
             <Globe className="w-4 h-4" />
             DE
-          </button>
-          <button className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-foreground border border-border rounded-lg transition hover:bg-accent/40">
-            <LayoutGrid className="w-4 h-4" />
-            Panel
-          </button>
-          <button className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold bg-primary text-primary-foreground rounded-lg transition hover:opacity-90">
-            Bot Einladen
-            <ArrowUpRight className="w-4 h-4" />
           </button>
         </div>
       </div>
