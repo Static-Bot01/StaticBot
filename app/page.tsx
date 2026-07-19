@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Sparkles, Terminal, Wrench, Moon } from "lucide-react";
 import { useLanguage } from "./components/LanguageProvider";
 
@@ -37,12 +36,14 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              href="/faq"
+            <a
+              href="https://discord.gg/static-bots"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-6 py-3.5 text-sm font-medium text-foreground border border-border rounded-xl bg-card/50 transition hover:bg-accent/40"
             >
               {t.hero.support}
-            </Link>
+            </a>
           </div>
 
           <div className="flex flex-col gap-3">
