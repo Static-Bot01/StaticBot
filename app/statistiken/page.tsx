@@ -1,27 +1,40 @@
+"use client";
+
+import { useLanguage } from "../components/LanguageProvider";
+
 export default function StatistikenPage() {
-  const stats = [
-    { label: "Aktive Bots", value: "1.248" },
-    { label: "Automatisierte Tasks", value: "38.512" },
-    { label: "Uptime", value: "99,9 %" },
-    { label: "Zufriedene Nutzer", value: "4.7 / 5" },
-  ];
+  const { t } = useLanguage();
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-20">
-      <h1 className="text-4xl font-bold text-white mb-4">Statistiken</h1>
-      <p className="text-neutral-400 mb-12 max-w-xl">
-        Zahlen, die zeigen, was StaticBot täglich leistet.
-      </p>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((s) => (
-          <div
-            key={s.label}
-            className="border border-neutral-800 bg-neutral-950/50 rounded-2xl p-6 text-center"
-          >
-            <p className="text-3xl font-bold text-white mb-2">{s.value}</p>
-            <p className="text-neutral-400 text-sm">{s.label}</p>
-          </div>
-        ))}
+    <div className="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+      >
+        <div className="absolute -top-40 left-1/2 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-accent/20 blur-[140px]" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 py-24">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-balance">
+          {t.statistics.title}
+        </h1>
+        <p className="mt-4 text-lg text-muted-foreground max-w-xl">
+          {t.statistics.subtitle}
+        </p>
+
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {t.statistics.items.map((s) => (
+            <div
+              key={s.label}
+              className="border border-border bg-card/50 rounded-2xl p-6 text-center transition hover:bg-accent/20"
+            >
+              <p className="text-3xl font-bold text-foreground mb-2">
+                {s.value}
+              </p>
+              <p className="text-muted-foreground text-sm">{s.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
