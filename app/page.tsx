@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles, ArrowRight, Terminal, Wrench, Moon } from "lucide-react";
+import { Sparkles, Terminal, Wrench, Moon } from "lucide-react";
 import { useLanguage } from "./components/LanguageProvider";
 
 export default function Home() {
@@ -37,11 +37,6 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold bg-primary text-primary-foreground rounded-xl transition hover:opacity-90">
-              <Sparkles className="w-4 h-4" />
-              {t.hero.invite}
-              <ArrowRight className="w-4 h-4" />
-            </button>
             <Link
               href="/faq"
               className="inline-flex items-center justify-center px-6 py-3.5 text-sm font-medium text-foreground border border-border rounded-xl bg-card/50 transition hover:bg-accent/40"
