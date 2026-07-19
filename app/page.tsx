@@ -2,6 +2,7 @@
 
 import { Sparkles, Terminal, Wrench, Moon } from "lucide-react";
 import { useLanguage } from "./components/LanguageProvider";
+import { FeaturesSection } from "./components/FeaturesSection";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -102,6 +103,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <FeaturesSection />
     </div>
   );
 }
