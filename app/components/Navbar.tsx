@@ -62,25 +62,41 @@ export default function Navbar() {
               onClick={() => setLang("de")}
               aria-pressed={lang === "de"}
               aria-label="Deutsch"
-              className={`px-2 py-1 text-base leading-none rounded-md transition ${
+              className={`px-1.5 py-1 rounded-md transition ${
                 lang === "de"
                   ? "bg-primary opacity-100"
                   : "opacity-50 hover:opacity-100"
               }`}
             >
-              <span aria-hidden="true">🇩🇪</span>
+              <img
+                src="https://flagcdn.com/24x18/de.png"
+                srcSet="https://flagcdn.com/48x36/de.png 2x"
+                width={22}
+                height={16}
+                alt=""
+                aria-hidden="true"
+                className="rounded-sm"
+              />
             </button>
             <button
               onClick={() => setLang("en")}
               aria-pressed={lang === "en"}
               aria-label="English"
-              className={`px-2 py-1 text-base leading-none rounded-md transition ${
+              className={`px-1.5 py-1 rounded-md transition ${
                 lang === "en"
                   ? "bg-primary opacity-100"
                   : "opacity-50 hover:opacity-100"
               }`}
             >
-              <span aria-hidden="true">🇬🇧</span>
+              <img
+                src="https://flagcdn.com/24x18/gb.png"
+                srcSet="https://flagcdn.com/48x36/gb.png 2x"
+                width={22}
+                height={16}
+                alt=""
+                aria-hidden="true"
+                className="rounded-sm"
+              />
             </button>
           </div>
         </div>

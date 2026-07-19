@@ -35,7 +35,7 @@ type Translations = {
     commandCreator: string;
     afkRoom: string;
   };
-  languages: { key: string; flag: string }[];
+  languages: { key: string; code: string }[];
 };
 
 const dictionaries: Record<Lang, Translations> = {
@@ -67,13 +67,13 @@ const dictionaries: Record<Lang, Translations> = {
       afkRoom: "AFK Room",
     },
     languages: [
-      { key: "Deutsch", flag: "🇩🇪" },
-      { key: "Englisch", flag: "🇺🇸" },
-      { key: "Arabisch", flag: "🇦🇪" },
-      { key: "Türkisch", flag: "🇹🇷" },
-      { key: "Spanisch", flag: "🇪🇸" },
-      { key: "Niederländisch", flag: "🇳🇱" },
-      { key: "Französisch", flag: "🇫🇷" },
+      { key: "Deutsch", code: "de" },
+      { key: "Englisch", code: "us" },
+      { key: "Arabisch", code: "ae" },
+      { key: "Türkisch", code: "tr" },
+      { key: "Spanisch", code: "es" },
+      { key: "Niederländisch", code: "nl" },
+      { key: "Französisch", code: "fr" },
     ],
   },
   en: {
@@ -104,13 +104,13 @@ const dictionaries: Record<Lang, Translations> = {
       afkRoom: "AFK Room",
     },
     languages: [
-      { key: "German", flag: "🇩🇪" },
-      { key: "English", flag: "🇺🇸" },
-      { key: "Arabic", flag: "🇦🇪" },
-      { key: "Turkish", flag: "🇹🇷" },
-      { key: "Spanish", flag: "🇪🇸" },
-      { key: "Dutch", flag: "🇳🇱" },
-      { key: "French", flag: "🇫🇷" },
+      { key: "German", code: "de" },
+      { key: "English", code: "us" },
+      { key: "Arabic", code: "ae" },
+      { key: "Turkish", code: "tr" },
+      { key: "Spanish", code: "es" },
+      { key: "Dutch", code: "nl" },
+      { key: "French", code: "fr" },
     ],
   },
 };

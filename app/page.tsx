@@ -56,7 +56,15 @@ export default function Home() {
                   key={lang.key}
                   className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-foreground border border-border rounded-lg bg-muted/40"
                 >
-                  <span aria-hidden="true">{lang.flag}</span>
+                  <img
+                    src={`https://flagcdn.com/24x18/${lang.code}.png`}
+                    srcSet={`https://flagcdn.com/48x36/${lang.code}.png 2x`}
+                    width={20}
+                    height={15}
+                    alt=""
+                    aria-hidden="true"
+                    className="rounded-sm"
+                  />
                   {lang.key}
                 </span>
               ))}
