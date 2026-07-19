@@ -21,6 +21,7 @@ export default function Navbar() {
         {/* Center menu */}
         <div className="hidden md:flex items-center gap-1 p-1 border border-border rounded-xl bg-muted/40">
           {[
+            { label: "Home", href: "/" },
             { label: "Features", href: "/features" },
             { label: "Statistiken", href: "/statistiken" },
             { label: "Partner", href: "/partner" },
