@@ -16,6 +16,7 @@ type Translations = {
     statistics: string;
     partner: string;
     pricing: string;
+    team: string;
     faq: string;
     tagline: string;
     notifications: string;
