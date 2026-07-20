@@ -5,6 +5,7 @@ import { useLanguage } from "./components/LanguageProvider";
 import { FeaturesSection } from "./components/FeaturesSection";
 import { StatisticsSection } from "./components/StatisticsSection";
 import { PricingSection } from "./components/PricingSection";
+import { TeamSection } from "./components/TeamSection";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -109,6 +110,7 @@ export default function Home() {
       <FeaturesSection />
       <StatisticsSection />
       <PricingSection />
+      <TeamSection />
     </div>
   );
 }

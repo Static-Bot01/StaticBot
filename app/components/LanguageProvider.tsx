@@ -71,6 +71,11 @@ type Translations = {
       highlighted: boolean;
     }[];
   };
+  team: {
+    title: string;
+    subtitle: string;
+    members: { name: string; role: string; image: string }[];
+  };
   languages: { key: string; code: string }[];
 };
 
@@ -82,6 +87,7 @@ const dictionaries: Record<Lang, Translations> = {
       statistics: "Statistiken",
       partner: "Partner",
       pricing: "Preise",
+      team: "Team",
       faq: "FAQ",
       tagline: "ALL-IN-ONE",
       notifications: "Benachrichtigungen",
@@ -215,6 +221,22 @@ const dictionaries: Record<Lang, Translations> = {
         },
       ],
     },
+    team: {
+      title: "Unser Team",
+      subtitle: "Die Menschen hinter StaticBots.",
+      members: [
+        {
+          name: "Teo",
+          role: "Owner",
+          image: "/placeholder-user.jpg",
+        },
+        {
+          name: "Lennox",
+          role: "Owner",
+          image: "/placeholder-user.jpg",
+        },
+      ],
+    },
     languages: [
       { key: "Deutsch", code: "de" },
       { key: "Englisch", code: "us" },
@@ -232,6 +254,7 @@ const dictionaries: Record<Lang, Translations> = {
       statistics: "Statistics",
       partner: "Partners",
       pricing: "Pricing",
+      team: "Team",
       faq: "FAQ",
       tagline: "ALL-IN-ONE",
       notifications: "Notifications",
@@ -362,6 +385,22 @@ const dictionaries: Record<Lang, Translations> = {
           ],
           cta: "Contact us",
           highlighted: false,
+        },
+      ],
+    },
+    team: {
+      title: "Our Team",
+      subtitle: "The people behind StaticBots.",
+      members: [
+        {
+          name: "Teo",
+          role: "Owner",
+          image: "/placeholder-user.jpg",
+        },
+        {
+          name: "Lennox",
+          role: "Owner",
+          image: "/placeholder-user.jpg",
         },
       ],
     },
