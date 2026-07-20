@@ -22,16 +22,23 @@ export function StatisticsSection() {
           {t.statistics.subtitle}
         </p>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {t.statistics.items.map((s) => (
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {t.statistics.items.map((stat) => (
             <div
-              key={s.label}
-              className="border border-border bg-card/50 rounded-2xl p-6 text-center transition hover:bg-accent/20"
+              key={stat.label}
+              className="flex flex-col items-center text-center rounded-2xl border border-border bg-card/50 p-8 transition hover:bg-accent/20"
             >
-              <p className="text-3xl font-bold text-foreground mb-2">
-                {s.value}
+              <img
+                src="/staticbots-logo.png"
+                alt="StaticBots"
+                width={96}
+                height={96}
+                className="size-24 rounded-full object-cover border border-border"
+              />
+              <p className="mt-5 text-3xl font-bold text-foreground">
+                {stat.value}
               </p>
-              <p className="text-muted-foreground text-sm">{s.label}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
             </div>
           ))}
         </div>
