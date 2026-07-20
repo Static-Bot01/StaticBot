@@ -11,6 +11,7 @@ export default function Navbar() {
     { label: t.nav.home, href: "/" },
     { label: t.nav.features, href: "/#features" },
     { label: t.nav.statistics, href: "/#statistiken" },
+    { label: t.nav.pricing, href: "/#preise" },
     { label: t.nav.faq, href: "/faq" },
   ];
 

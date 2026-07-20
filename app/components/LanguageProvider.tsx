@@ -58,6 +58,18 @@ type Translations = {
     subtitle: string;
     items: { label: string; value: string }[];
   };
+  pricing: {
+    title: string;
+    subtitle: string;
+    plans: {
+      name: string;
+      price: string;
+      period: string;
+      features: string[];
+      cta: string;
+      highlighted: boolean;
+    }[];
+  };
   languages: { key: string; code: string }[];
 };
 
@@ -68,6 +80,7 @@ const dictionaries: Record<Lang, Translations> = {
       features: "Features",
       statistics: "Statistiken",
       partner: "Partner",
+      pricing: "Preise",
       faq: "FAQ",
       tagline: "ALL-IN-ONE",
       notifications: "Benachrichtigungen",
@@ -169,6 +182,51 @@ const dictionaries: Record<Lang, Translations> = {
         { label: "Zufriedene Nutzer", value: "4,5 / 5" },
       ],
     },
+    pricing: {
+      title: "Preise",
+      subtitle: "Wähle den passenden Plan für deinen Server.",
+      plans: [
+        {
+          name: "Free",
+          price: "0 €",
+          period: "pro Monat",
+          features: [
+            "Bis zu 3 Server",
+            "Basis Moderation",
+            "Ticket System",
+            "Community Support",
+          ],
+          cta: "Jetzt starten",
+          highlighted: false,
+        },
+        {
+          name: "Pro",
+          price: "4,99 €",
+          period: "pro Monat",
+          features: [
+            "Unbegrenzte Server",
+            "Alle Features",
+            "Custom Bot Avatar & Bio",
+            "Priorisierter Support",
+          ],
+          cta: "Pro wählen",
+          highlighted: true,
+        },
+        {
+          name: "Enterprise",
+          price: "Auf Anfrage",
+          period: "",
+          features: [
+            "Alles aus Pro",
+            "Eigener Bot Host",
+            "Individuelle Anpassungen",
+            "Dedizierter Support",
+          ],
+          cta: "Kontakt aufnehmen",
+          highlighted: false,
+        },
+      ],
+    },
     languages: [
       { key: "Deutsch", code: "de" },
       { key: "Englisch", code: "us" },
@@ -185,6 +243,7 @@ const dictionaries: Record<Lang, Translations> = {
       features: "Features",
       statistics: "Statistics",
       partner: "Partners",
+      pricing: "Pricing",
       faq: "FAQ",
       tagline: "ALL-IN-ONE",
       notifications: "Notifications",
@@ -284,6 +343,51 @@ const dictionaries: Record<Lang, Translations> = {
         { label: "Aktive Bots", value: "50" },
         { label: "Uptime", value: "99.9 %" },
         { label: "Satisfied Users", value: "4.5 / 5" },
+      ],
+    },
+    pricing: {
+      title: "Pricing",
+      subtitle: "Choose the plan that fits your server.",
+      plans: [
+        {
+          name: "Free",
+          price: "0 €",
+          period: "per month",
+          features: [
+            "Up to 3 servers",
+            "Basic moderation",
+            "Ticket system",
+            "Community support",
+          ],
+          cta: "Get started",
+          highlighted: false,
+        },
+        {
+          name: "Pro",
+          price: "4.99 €",
+          period: "per month",
+          features: [
+            "Unlimited servers",
+            "All features",
+            "Custom bot avatar & bio",
+            "Priority support",
+          ],
+          cta: "Choose Pro",
+          highlighted: true,
+        },
+        {
+          name: "Enterprise",
+          price: "On request",
+          period: "",
+          features: [
+            "Everything from Pro",
+            "Own bot host",
+            "Custom adaptations",
+            "Dedicated support",
+          ],
+          cta: "Contact us",
+          highlighted: false,
+        },
       ],
     },
     languages: [
