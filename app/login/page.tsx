@@ -13,32 +13,38 @@ export default function LoginPage() {
 
   return (
     <div className="relative overflow-hidden">
+      {/* Gleicher Ambient-Glow wie Home */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
       >
-        <div className="absolute -top-40 left-1/2 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-accent/20 blur-[140px]" />
+        <div className="absolute -top-40 left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-accent/20 blur-[140px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,var(--color-border)_1px,transparent_0)] [background-size:32px_32px] opacity-40" />
       </div>
 
       <div className="flex min-h-screen items-center justify-center px-6">
-        <div className="w-full max-w-sm text-center">
-          <img
-            src="/staticbots-logo.png"
-            alt="StaticBots"
-            width={80}
-            height={80}
-            className="mx-auto rounded-2xl"
-          />
-          <h1 className="mt-6 text-2xl font-semibold tracking-tight">
+        <div className="w-full max-w-md text-center">
+          {/* Gleiches Logo wie Home/Navbar */}
+          <div className="mx-auto flex items-center justify-center w-20 h-20 border border-border rounded-2xl bg-muted">
+            <img
+              src="/staticbots-logo.png"
+              alt="StaticBots"
+              width={40}
+              height={40}
+              className="rounded-sm"
+            />
+          </div>
+
+          <h1 className="mt-8 text-4xl font-bold tracking-tight text-balance">
             StaticBots
           </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Melde dich mit Discord an, um fortzufahren.
+          <p className="mt-4 text-lg text-muted-foreground max-w-sm mx-auto">
+            Melde dich mit deinem Discord-Account an, um die Seite zu sehen.
           </p>
 
           <a
             href={discordLoginUrl}
-            className="mt-8 flex items-center justify-center gap-2 rounded-xl border border-border bg-card/50 px-6 py-3 text-sm font-medium transition hover:bg-accent/40"
+            className="mt-10 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-medium border border-border rounded-xl bg-card/50 transition hover:bg-accent/40"
           >
             Mit Discord anmelden
           </a>
