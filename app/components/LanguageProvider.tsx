@@ -166,7 +166,7 @@ const dictionaries: Record<Lang, Translations> = {
       items: [
         { label: "Aktive Bots", value: "50" },
         { label: "Uptime", value: "99,9 %" },
-        { label: "Zufriedene Nutzer", value: "4.7 / 5" },
+        { label: "Zufriedene Nutzer", value: "4,5 / 5" },
       ],
     },
     languages: [
