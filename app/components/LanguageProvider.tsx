@@ -164,8 +164,7 @@ const dictionaries: Record<Lang, Translations> = {
       title: "Statistiken",
       subtitle: "Zahlen, die zeigen, was StaticBots täglich leistet.",
       items: [
-        { label: "Aktive Bots", value: "1.248" },
-        { label: "Automatisierte Tasks", value: "38.512" },
+        { label: "Aktive Bots", value: "50" },
         { label: "Uptime", value: "99,9 %" },
         { label: "Zufriedene Nutzer", value: "4.7 / 5" },
       ],
@@ -282,10 +281,9 @@ const dictionaries: Record<Lang, Translations> = {
       title: "Statistics",
       subtitle: "Numbers that show what StaticBots delivers every day.",
       items: [
-        { label: "Active Bots", value: "1.248" },
-        { label: "Automated Tasks", value: "38.512" },
+        { label: "Aktive Bots", value: "50" },
         { label: "Uptime", value: "99.9 %" },
-        { label: "Satisfied Users", value: "4.7 / 5" },
+        { label: "Satisfied Users", value: "4.5 / 5" },
       ],
     },
     languages: [
