@@ -11,7 +11,7 @@ export default function Home() {
   const { t } = useLanguage();
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-x-hidden">
       {/* Ambient background glow */}
       <div
         aria-hidden="true"
