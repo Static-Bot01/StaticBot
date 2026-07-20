@@ -188,21 +188,8 @@ const dictionaries: Record<Lang, Translations> = {
       subtitle: "Wähle den passenden Plan für deinen Server.",
       plans: [
         {
-          name: "Free",
-          price: "0 €",
-          period: "pro Monat",
-          features: [
-            "Bis zu 3 Server",
-            "Basis Moderation",
-            "Ticket System",
-            "Community Support",
-          ],
-          cta: "Jetzt starten",
-          highlighted: false,
-        },
-        {
           name: "Pro",
-          price: "4,99 €",
+          price: "5,99 €",
           period: "pro Monat",
           features: [
             "Unbegrenzte Server",
@@ -214,13 +201,13 @@ const dictionaries: Record<Lang, Translations> = {
           highlighted: true,
         },
         {
-          name: "Enterprise",
+          name: "Custom Bot",
           price: "Auf Anfrage",
           period: "",
           features: [
-            "Alles aus Pro",
+            "Eigener Bot nach deinen Wünschen",
+            "Individuelle Features & Anpassungen",
             "Eigener Bot Host",
-            "Individuelle Anpassungen",
             "Dedizierter Support",
           ],
           cta: "Kontakt aufnehmen",
@@ -351,21 +338,8 @@ const dictionaries: Record<Lang, Translations> = {
       subtitle: "Choose the plan that fits your server.",
       plans: [
         {
-          name: "Free",
-          price: "0 €",
-          period: "per month",
-          features: [
-            "Up to 3 servers",
-            "Basic moderation",
-            "Ticket system",
-            "Community support",
-          ],
-          cta: "Get started",
-          highlighted: false,
-        },
-        {
           name: "Pro",
-          price: "4.99 €",
+          price: "5.99 €",
           period: "per month",
           features: [
             "Unlimited servers",
@@ -377,13 +351,13 @@ const dictionaries: Record<Lang, Translations> = {
           highlighted: true,
         },
         {
-          name: "Enterprise",
+          name: "Custom Bot",
           price: "On request",
           period: "",
           features: [
-            "Everything from Pro",
+            "Your own bot, built to your needs",
+            "Custom features & adaptations",
             "Own bot host",
-            "Custom adaptations",
             "Dedicated support",
           ],
           cta: "Contact us",
