@@ -34,10 +34,10 @@ export default function RootLayout({
   return (
     <html
       lang="de"
-      className="h-full antialiased"
+      className="min-h-screen antialiased"
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
+      <body className="min-h-screen flex flex-col font-sans bg-background text-foreground">
         <LanguageProvider>
           <Navbar />
           <main className="flex-grow">{children}</main>
