@@ -20,25 +20,36 @@ export default function LoginPage() {
         <div className="absolute -top-40 left-1/2 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-accent/20 blur-[140px]" />
       </div>
 
-      <div className="max-w-md mx-auto px-6 py-32 text-center">
-        <h1 className="text-3xl font-bold tracking-tight">Login</h1>
-        <p className="mt-4 text-muted-foreground">
-          Melde dich mit deinem Discord-Account an, um die Seite zu sehen.
-        </p>
-
-        <a
-          href={discordLoginUrl}
-          className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40"
-        >
-          Mit Discord anmelden
-        </a>
-
-        {(!process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID ||
-          !process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI) && (
-          <p className="mt-4 text-xs text-muted-foreground">
-            Discord-OAuth2 ist noch nicht konfiguriert.
+      <div className="flex min-h-screen items-center justify-center px-6">
+        <div className="w-full max-w-sm text-center">
+          <img
+            src="/staticbots-logo.png"
+            alt="StaticBots"
+            width={80}
+            height={80}
+            className="mx-auto rounded-2xl"
+          />
+          <h1 className="mt-6 text-2xl font-semibold tracking-tight">
+            StaticBots
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Melde dich mit Discord an, um fortzufahren.
           </p>
-        )}
+
+          <a
+            href={discordLoginUrl}
+            className="mt-8 flex items-center justify-center gap-2 rounded-xl border border-border bg-card/50 px-6 py-3 text-sm font-medium transition hover:bg-accent/40"
+          >
+            Mit Discord anmelden
+          </a>
+
+          {(!process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID ||
+            !process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI) && (
+            <p className="mt-4 text-xs text-muted-foreground">
+              Discord-OAuth2 ist noch nicht konfiguriert.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
