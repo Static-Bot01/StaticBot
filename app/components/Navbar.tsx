@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, Globe, Bot } from "lucide-react";
+import { Bell, Globe } from "lucide-react";
 import { useLanguage } from "./LanguageProvider";
 
 export default function Navbar() {
@@ -22,7 +22,13 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <div className="flex items-center justify-center w-10 h-10 border border-border rounded-xl bg-muted">
-            <Bot className="w-5 h-5 text-foreground" aria-hidden="true" />
+            <img
+              src="/staticbots-logo.png"
+              alt="StaticBots"
+              width={20}
+              height={20}
+              className="rounded-sm"
+            />
           </div>
           <div className="leading-tight">
             <h1 className="text-base font-bold text-foreground">StaticBots</h1>
