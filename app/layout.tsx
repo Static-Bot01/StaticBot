@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { LanguageProvider } from "./components/LanguageProvider";
+import { AuthGate } from "./components/AuthGate";
 
 export const metadata: Metadata = {
   title: "StaticBots – Discords ultimativer All-in-One Bot",
@@ -39,9 +40,11 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col font-sans bg-background text-foreground">
         <LanguageProvider>
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          {process.env.NODE_ENV === "production" && <Analytics />}
+          <AuthGate>
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            {process.env.NODE_ENV === "production" && <Analytics />}
+          </AuthGate>
         </LanguageProvider>
       </body>
     </html>
