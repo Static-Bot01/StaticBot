@@ -33,7 +33,9 @@ export default function AuthCallbackPage() {
           localStorage.setItem("discord_user", JSON.stringify(user));
         }
         setStatus("success");
-        setTimeout(() => router.push("/"), 800);
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 800);
       })
       .catch((err) => {
         setStatus("error");
