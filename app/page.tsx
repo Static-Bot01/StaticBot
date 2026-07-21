@@ -33,10 +33,9 @@ export default function Home() {
               height={48}
               className="rounded-xl"
             />
-            <span className="inline-flex items-center gap-2 self-start px-4 py-1.5 text-xs font-mono tracking-wider text-muted-foreground border border-border rounded-full bg-muted/40">
-              <Sparkles className="w-3.5 h-3.5" />
-              {t.hero.badge}
-            </span>
+          <span className="inline-flex items-center self-start px-4 py-1.5 text-xs font-mono tracking-wider text-muted-foreground border border-border rounded-full bg-muted/40">
+            {t.hero.badge}
+          </span>
           </div>
 
           <h1 className="text-5xl sm:text-6xl font-bold leading-[1.05] tracking-tight text-balance">
