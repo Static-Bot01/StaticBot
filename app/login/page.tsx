@@ -14,50 +14,56 @@ export default function LoginPage() {
       : "#";
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center bg-[#0b0914] px-4 text-white overflow-hidden">
-      {/* Hintergrund-Rastermuster */}
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-background px-4 text-foreground overflow-hidden">
+      {/* Hintergrund-Rastermuster in Border-Farbe */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(#221b36_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none"
+        className="absolute inset-0 bg-[radial-gradient(var(--color-border)_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none"
       />
+
+      {/* Ambient-Glow wie Home */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+      >
+        <div className="absolute -top-40 left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-accent/20 blur-[140px]" />
+      </div>
 
       {/* Haupt-Container */}
       <div className="relative z-10 flex w-full max-w-md flex-col items-center text-center">
         
         {/* Logo / Icon */}
         <div className="mb-6 flex items-center justify-center">
-          <div className="relative h-16 w-16 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]">
-            <div className="flex h-full w-full items-center justify-center rounded-2xl bg-gradient-to-tr from-pink-600 to-purple-600 text-3xl">
-              <Image
-                src="/staticbots-logo.png"
-                alt="StaticBots"
-                width={40}
-                height={40}
-                className="rounded-sm"
-              />
-            </div>
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-muted">
+            <Image
+              src="/staticbots-logo.png"
+              alt="StaticBots"
+              width={40}
+              height={40}
+              className="rounded-sm"
+            />
           </div>
         </div>
 
         {/* Überschrift */}
         <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl mb-3">
-          Static<span className="text-pink-500">Bots</span>
+          Static<span className="text-muted-foreground">Bots</span>
         </h1>
 
         {/* Untertitel */}
-        <p className="max-w-sm text-sm text-zinc-400 mb-8 leading-relaxed">
+        <p className="max-w-sm text-sm text-muted-foreground mb-8 leading-relaxed">
           Melde dich mit deinem Discord-Account an, um die Seite zu sehen.
         </p>
 
         {/* Sektion: Authentication */}
         <div className="w-full mb-8">
-          <span className="block text-[10px] font-semibold tracking-widest text-zinc-500 uppercase mb-3">
+          <span className="block text-[10px] font-semibold tracking-widest text-muted-foreground uppercase mb-3">
             Authentication
           </span>
 
           <Link
             href={discordLoginUrl}
-            className="group relative flex w-full items-center justify-center gap-3 rounded-xl bg-[#5865F2] px-6 py-3.5 text-sm font-medium text-white shadow-[0_0_20px_rgba(88,101,242,0.4)] transition-all duration-200 hover:bg-[#4752c4] hover:shadow-[0_0_25px_rgba(88,101,242,0.6)] active:scale-[0.98]"
+            className="group relative flex w-full items-center justify-center gap-3 rounded-xl border border-border bg-card/50 px-6 py-3.5 text-sm font-medium text-foreground transition-all duration-200 hover:bg-accent/40 active:scale-[0.98]"
           >
             <svg
               className="h-5 w-5"
@@ -73,13 +79,13 @@ export default function LoginPage() {
 
         {/* Sektion: Information */}
         <div className="w-full">
-          <span className="block text-[10px] font-semibold tracking-widest text-zinc-500 uppercase mb-3 text-left">
+          <span className="block text-[10px] font-semibold tracking-widest text-muted-foreground uppercase mb-3 text-left">
             Information
           </span>
 
-          <div className="flex items-start gap-3 rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4 text-left text-xs text-zinc-400 backdrop-blur-sm">
+          <div className="flex items-start gap-3 rounded-xl border border-border bg-card/50 p-4 text-left text-xs text-muted-foreground">
             <svg
-              className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400"
+              className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -96,14 +102,14 @@ export default function LoginPage() {
               Informationen findest du in unserer{" "}
               <Link
                 href="/privacy"
-                className="text-pink-500 underline underline-offset-2 hover:text-pink-400"
+                className="text-foreground underline underline-offset-2 hover:text-accent-foreground"
               >
                 Datenschutzerklärung
               </Link>{" "}
               und unseren{" "}
               <Link
                 href="/terms"
-                className="text-pink-500 underline underline-offset-2 hover:text-pink-400"
+                className="text-foreground underline underline-offset-2 hover:text-accent-foreground"
               >
                 Terms of Service
               </Link>
