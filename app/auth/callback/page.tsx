@@ -1,55 +1,87 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const DISCORD_CLIENT_ID = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "";
 const DISCORD_REDIRECT_URI = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI || "";
-const DISCORD_SCOPE = "identify";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const error = searchParams.get("error");
-    const errorDescription = searchParams.get("error_description");
-    if (error) {
-      setStatus("error");
-      setError(errorDescription || error);
-      return;
-    }
+    const exchangeCode = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      const discordError = params.get("error");
+      const errorDescription = params.get("error_description");
 
-    const token = searchParams.get("access_token");
-    if (!token) {
-      setStatus("error");
-      setError("Kein Access Token erhalten. Prüfe die Redirect URI im Discord Developer Portal.");
-      return;
-    }
+      if (discordError) {
+        setStatus("error");
+        setError(errorDescription || discordError);
+        return;
+      }
 
-    fetch("https://discord.com/api/users/@me", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Fehler beim Abrufen der User-Daten.");
-        return res.json();
-      })
-      .then((user) => {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("discord_user", JSON.stringify(user));
+      if (!code) {
+        setStatus("error");
+        setError("Kein Code erhalten.");
+        return;
+      }
+
+      const codeVerifier = sessionStorage.getItem("discord_code_verifier");
+      if (!codeVerifier) {
+        setStatus("error");
+        setError("Code Verifier nicht gefunden. Bitte erneut einloggen.");
+        return;
+      }
+
+      try {
+        const body = new URLSearchParams({
+          grant_type: "authorization_code",
+          code,
+          redirect_uri: DISCORD_REDIRECT_URI,
+          client_id: DISCORD_CLIENT_ID,
+          code_verifier: codeVerifier,
+        });
+
+        const res = await fetch("https://discord.com/api/oauth2/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: body.toString(),
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error_description || data.error || "Token-Austausch fehlgeschlagen.");
         }
+
+        const data = await res.json();
+        const accessToken = data.access_token;
+
+        const userRes = await fetch("https://discord.com/api/users/@me", {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        if (!userRes.ok) throw new Error("Fehler beim Abrufen der User-Daten.");
+
+        const user = await userRes.json();
+        localStorage.setItem("discord_user", JSON.stringify(user));
+        sessionStorage.removeItem("discord_code_verifier");
+
         setStatus("success");
         setTimeout(() => {
           window.location.href = "/";
         }, 800);
-      })
-      .catch((err) => {
+      } catch (err: any) {
         setStatus("error");
         setError(err.message || "Login fehlgeschlagen.");
-      });
-  }, [router, searchParams]);
+      }
+    };
+
+    exchangeCode();
+  }, []);
 
   return (
     <div className="relative overflow-hidden">
