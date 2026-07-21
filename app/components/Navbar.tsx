@@ -16,6 +16,11 @@ export default function Navbar() {
     { label: t.nav.faq, href: "/faq" },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem("discord_user");
+    window.location.href = "/login";
+  };
+
   return (
     <nav className="sticky top-0 z-50 flex justify-center px-4 pt-6">
       <div className="flex items-center justify-between w-full max-w-6xl gap-4 px-4 py-3 border border-border bg-card/70 rounded-2xl backdrop-blur-xl">
@@ -106,6 +111,12 @@ export default function Navbar() {
               />
             </button>
           </div>
+          <button
+            onClick={handleLogout}
+            className="px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-accent/40 text-muted-foreground hover:text-foreground transition"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </nav>
