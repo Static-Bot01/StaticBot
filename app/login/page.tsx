@@ -32,17 +32,15 @@ export default function LoginPage() {
       {/* Haupt-Container */}
       <div className="relative z-10 flex w-full max-w-md flex-col items-center text-center">
         
-        {/* Logo / Icon */}
+        {/* Logo */}
         <div className="mb-6 flex items-center justify-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-muted">
-            <Image
-              src="/staticbots-logo.png"
-              alt="StaticBots"
-              width={40}
-              height={40}
-              className="rounded-sm"
-            />
-          </div>
+          <Image
+            src="/staticbots-logo.png"
+            alt="StaticBots"
+            width={120}
+            height={120}
+            className="rounded-2xl"
+          />
         </div>
 
         {/* Überschrift */}
