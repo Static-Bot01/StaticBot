@@ -37,16 +37,11 @@ export default function LoginPage() {
           <Image
             src="/staticbots-logo.png"
             alt="StaticBots"
-            width={64}
-            height={64}
+            width={160}
+            height={160}
             className="rounded-2xl"
           />
         </div>
-
-        {/* Überschrift */}
-        <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl mb-3">
-          Static<span className="text-muted-foreground">Bots</span>
-        </h1>
 
         {/* Untertitel */}
         <p className="max-w-sm text-sm text-muted-foreground mb-8 leading-relaxed">
