@@ -14,10 +14,18 @@ export default function AuthCallbackPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const error = searchParams.get("error");
+    const errorDescription = searchParams.get("error_description");
+    if (error) {
+      setStatus("error");
+      setError(errorDescription || error);
+      return;
+    }
+
     const token = searchParams.get("access_token");
     if (!token) {
       setStatus("error");
-      setError("Kein Access Token erhalten.");
+      setError("Kein Access Token erhalten. Prüfe die Redirect URI im Discord Developer Portal.");
       return;
     }
 
@@ -63,6 +71,9 @@ export default function AuthCallbackPage() {
           <div className="space-y-2">
             <p className="text-lg text-destructive">Login fehlgeschlagen</p>
             <p className="text-sm text-muted-foreground">{error}</p>
+            <p className="text-xs text-muted-foreground break-all">
+              Erwartete Redirect URI: {DISCORD_REDIRECT_URI || "(nicht gesetzt)"}
+            </p>
             <button
               onClick={() => router.push("/login")}
               className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium border border-border rounded-xl hover:bg-accent/40"
