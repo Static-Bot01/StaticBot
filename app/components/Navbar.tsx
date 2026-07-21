@@ -21,12 +21,12 @@ export default function Navbar() {
       <div className="flex items-center justify-between w-full max-w-6xl gap-4 px-4 py-3 border border-border bg-card/70 rounded-2xl backdrop-blur-xl">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 border border-border rounded-xl bg-muted">
+          <div className="flex items-center justify-center w-12 h-12 border border-border rounded-xl bg-muted">
             <img
               src="/staticbots-logo.png"
               alt="StaticBots"
-              width={20}
-              height={20}
+              width={28}
+              height={28}
               className="rounded-sm"
             />
           </div>
