@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, Terminal, Wrench, Moon } from "lucide-react";
+import { Terminal, Wrench, Moon } from "lucide-react";
 import { useLanguage } from "./components/LanguageProvider";
 import { FeaturesSection } from "./components/FeaturesSection";
 import { StatisticsSection } from "./components/StatisticsSection";
@@ -25,18 +25,9 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 pt-24 pb-32 grid lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
         {/* Left: copy */}
         <div className="flex flex-col gap-8">
-          <div className="flex items-center gap-4">
-            <Image
-              src="/staticbots-logo.png"
-              alt="StaticBots"
-              width={48}
-              height={48}
-              className="rounded-xl"
-            />
           <span className="inline-flex items-center self-start px-4 py-1.5 text-xs font-mono tracking-wider text-muted-foreground border border-border rounded-full bg-muted/40">
             {t.hero.badge}
           </span>
-          </div>
 
           <h1 className="text-5xl sm:text-6xl font-bold leading-[1.05] tracking-tight text-balance">
             <span className="text-muted-foreground">{t.hero.titleBefore}</span>{" "}
