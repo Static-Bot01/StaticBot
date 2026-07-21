@@ -17,6 +17,7 @@ type Translations = {
     partner: string;
     pricing: string;
     team: string;
+    dashboard: string;
     faq: string;
     tagline: string;
     notifications: string;
@@ -77,6 +78,13 @@ type Translations = {
     subtitle: string;
     members: { name: string; role: string; image: string }[];
   };
+  dashboard: {
+    title: string;
+    subtitle: string;
+    welcome: string;
+    description: string;
+    stats: { label: string; value: string }[];
+  };
   languages: { key: string; code: string }[];
 };
 
@@ -89,6 +97,7 @@ const dictionaries: Record<Lang, Translations> = {
       partner: "Partner",
       pricing: "Preise",
       team: "Team",
+      dashboard: "Dashboard",
       faq: "FAQ",
       tagline: "ALL-IN-ONE",
       notifications: "Benachrichtigungen",
@@ -238,6 +247,18 @@ const dictionaries: Record<Lang, Translations> = {
         },
       ],
     },
+    dashboard: {
+      title: "Dashboard",
+      subtitle: "Deine Übersicht.",
+      welcome: "Willkommen zurück!",
+      description: "Hier siehst du deine Statistik und Aktivitäten.",
+      stats: [
+        { label: "Server", value: "12" },
+        { label: "Mitglieder", value: "1.248" },
+        { label: "Befehle", value: "38.512" },
+        { label: "Uptime", value: "99,9 %" },
+      ],
+    },
     languages: [
       { key: "Deutsch", code: "de" },
       { key: "Englisch", code: "us" },
@@ -256,6 +277,7 @@ const dictionaries: Record<Lang, Translations> = {
       partner: "Partners",
       pricing: "Pricing",
       team: "Team",
+      dashboard: "Dashboard",
       faq: "FAQ",
       tagline: "ALL-IN-ONE",
       notifications: "Notifications",
@@ -403,6 +425,18 @@ const dictionaries: Record<Lang, Translations> = {
           role: "Owner",
           image: "/staticbots-logo.png",
         },
+      ],
+    },
+    dashboard: {
+      title: "Dashboard",
+      subtitle: "Your overview.",
+      welcome: "Welcome back!",
+      description: "Here you can see your statistics and activities.",
+      stats: [
+        { label: "Servers", value: "12" },
+        { label: "Members", value: "1,248" },
+        { label: "Commands", value: "38,512" },
+        { label: "Uptime", value: "99.9 %" },
       ],
     },
     languages: [
