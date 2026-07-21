@@ -37,8 +37,8 @@ export default function LoginPage() {
           <Image
             src="/staticbots-logo.png"
             alt="StaticBots"
-            width={120}
-            height={120}
+            width={64}
+            height={64}
             className="rounded-2xl"
           />
         </div>
