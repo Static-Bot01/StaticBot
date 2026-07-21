@@ -262,11 +262,8 @@ const dictionaries: Record<Lang, Translations> = {
     languages: [
       { key: "Deutsch", code: "de" },
       { key: "Englisch", code: "us" },
-      { key: "Arabisch", code: "ae" },
-      { key: "Türkisch", code: "tr" },
       { key: "Spanisch", code: "es" },
       { key: "Niederländisch", code: "nl" },
-      { key: "Französisch", code: "fr" },
     ],
   },
   en: {
@@ -442,11 +439,8 @@ const dictionaries: Record<Lang, Translations> = {
     languages: [
       { key: "German", code: "de" },
       { key: "English", code: "us" },
-      { key: "Arabic", code: "ae" },
-      { key: "Turkish", code: "tr" },
       { key: "Spanish", code: "es" },
       { key: "Dutch", code: "nl" },
-      { key: "French", code: "fr" },
     ],
   },
 };
