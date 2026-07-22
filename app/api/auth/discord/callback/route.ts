@@ -2,10 +2,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
-    const url = new URL(request.url);
-    const code = url.searchParams.get("code");
-    const error = url.searchParams.get("error");
-    const errorDescription = url.searchParams.get("error_description");
+    const code = request.nextUrl.searchParams.get("code");
+    const error = request.nextUrl.searchParams.get("error");
+    const errorDescription = request.nextUrl.searchParams.get("error_description");
 
     if (error) {
       return NextResponse.redirect(`/login?error=${encodeURIComponent(errorDescription || error)}`);
