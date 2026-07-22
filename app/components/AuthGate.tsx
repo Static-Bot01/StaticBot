@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import LoginPage from "../login/page";
 
 type DiscordUser = {
@@ -12,7 +12,6 @@ type DiscordUser = {
 };
 
 export function AuthGate({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
   const pathname = usePathname();
   const [isAuthed, setIsAuthed] = useState<boolean | null>(null);
 
@@ -20,12 +19,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
     const checkAuth = async () => {
       try {
         const res = await fetch("/api/auth/me", { credentials: "include" });
-        if (res.ok) {
-          const data = (await res.json()) as { user: DiscordUser };
-          setIsAuthed(true);
-        } else {
-          setIsAuthed(false);
-        }
+        setIsAuthed(res.ok);
       } catch {
         setIsAuthed(false);
       }
@@ -42,7 +36,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!isAuthed && pathname !== "/login" && pathname !== "/auth/callback") {
+  if (!isAuthed && pathname !== "/login") {
     return <LoginPage />;
   }
 
