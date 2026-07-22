@@ -17,22 +17,36 @@ type Stat = {
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stat[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const loadStats = async () => {
-      const { data, error } = await supabase
-        .from("dashboard_stats")
-        .select("*")
-        .order("id");
+      try {
+        const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-      if (error) {
-        console.error("Fehler beim Laden der Stats:", error);
-        setStats([]);
-      } else if (data) {
-        setStats(data);
+        if (!url || !key) {
+          setError("Supabase nicht konfiguriert.");
+          setLoading(false);
+          return;
+        }
+
+        const { data, error: supabaseError } = await supabase
+          .from("dashboard_stats")
+          .select("*")
+          .order("id");
+
+        if (supabaseError) {
+          setError(supabaseError.message);
+          setStats([]);
+        } else if (data) {
+          setStats(data);
+        }
+      } catch {
+        setError("Fehler beim Laden.");
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     loadStats();
@@ -52,7 +66,11 @@ export default function DashboardPage() {
           <p className="text-lg text-muted-foreground text-center">Lade…</p>
         )}
 
-        {!loading && stats.length === 0 && (
+        {error && (
+          <p className="text-lg text-destructive text-center">{error}</p>
+        )}
+
+        {!loading && !error && stats.length === 0 && (
           <p className="text-lg text-muted-foreground text-center">
             Keine Daten gefunden.
           </p>
