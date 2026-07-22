@@ -38,20 +38,24 @@ export async function GET(request: Request) {
     });
 
     if (!tokenRes.ok) {
-      const text = await tokenRes.text();
+      const text = await tokenRes.text().catch(() => "");
       console.error("Discord token error:", tokenRes.status, text);
-      return NextResponse.redirect(`/login?error=${encodeURIComponent("Token-Austausch fehlgeschlagen: " + tokenRes.status + " - " + text)}`);
+      return NextResponse.redirect(`/login?error=${encodeURIComponent("Token-Austausch fehlgeschlagen: " + tokenRes.status)}`);
     }
 
     const tokenData = await tokenRes.json();
     const accessToken = tokenData.access_token;
+
+    if (!accessToken) {
+      return NextResponse.redirect(`/login?error=${encodeURIComponent("Kein Access Token erhalten.")}`);
+    }
 
     const userRes = await fetch("https://discord.com/api/users/@me", {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
     if (!userRes.ok) {
-      const text = await userRes.text();
+      const text = await userRes.text().catch(() => "");
       console.error("Discord user error:", userRes.status, text);
       return NextResponse.redirect(`/login?error=${encodeURIComponent("User-Daten fehlgeschlagen: " + userRes.status)}`);
     }
@@ -70,6 +74,7 @@ export async function GET(request: Request) {
     return response;
   } catch (err) {
     console.error("Callback error:", err);
-    return NextResponse.redirect(`/login?error=${encodeURIComponent("Login fehlgeschlagen.")}`);
+    const message = err instanceof Error ? err.message : "Login fehlgeschlagen.";
+    return NextResponse.redirect(`/login?error=${encodeURIComponent(message)}`);
   }
 }
