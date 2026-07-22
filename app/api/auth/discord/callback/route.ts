@@ -40,7 +40,7 @@ export async function GET(request: Request) {
     if (!tokenRes.ok) {
       const text = await tokenRes.text();
       console.error("Discord token error:", tokenRes.status, text);
-      return NextResponse.redirect(`/login?error=${encodeURIComponent("Token-Austausch fehlgeschlagen: " + tokenRes.status)}`);
+      return NextResponse.redirect(`/login?error=${encodeURIComponent("Token-Austausch fehlgeschlagen: " + tokenRes.status + " - " + text)}`);
     }
 
     const tokenData = await tokenRes.json();
