@@ -1,28 +1,28 @@
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const code = url.searchParams.get("code");
-  const error = url.searchParams.get("error");
-
-  if (error) {
-    const errorDescription = url.searchParams.get("error_description") || error;
-    return NextResponse.redirect(`/login?error=${encodeURIComponent(errorDescription)}`);
-  }
-
-  if (!code) {
-    return NextResponse.redirect(`/login?error=${encodeURIComponent("Kein Code erhalten.")}`);
-  }
-
-  const clientId = process.env.DISCORD_CLIENT_ID;
-  const clientSecret = process.env.DISCORD_CLIENT_SECRET;
-  const redirectUri = process.env.DISCORD_REDIRECT_URI;
-
-  if (!clientId || !clientSecret || !redirectUri) {
-    return NextResponse.json({ error: "Discord OAuth2 nicht vollständig konfiguriert." }, { status: 500 });
-  }
-
   try {
+    const url = new URL(request.url);
+    const code = url.searchParams.get("code");
+    const error = url.searchParams.get("error");
+    const errorDescription = url.searchParams.get("error_description");
+
+    if (error) {
+      return NextResponse.redirect(`/login?error=${encodeURIComponent(errorDescription || error)}`);
+    }
+
+    if (!code) {
+      return NextResponse.redirect(`/login?error=${encodeURIComponent("Kein Code erhalten.")}`);
+    }
+
+    const clientId = process.env.DISCORD_CLIENT_ID;
+    const clientSecret = process.env.DISCORD_CLIENT_SECRET;
+    const redirectUri = process.env.DISCORD_REDIRECT_URI;
+
+    if (!clientId || !clientSecret || !redirectUri) {
+      return NextResponse.json({ error: "Discord OAuth2 nicht vollständig konfiguriert." }, { status: 500 });
+    }
+
     const body = new URLSearchParams({
       grant_type: "authorization_code",
       code,
@@ -38,8 +38,9 @@ export async function GET(request: Request) {
     });
 
     if (!tokenRes.ok) {
-      const data = await tokenRes.json().catch(() => ({}));
-      return NextResponse.json({ error: data.error_description || data.error || "Token-Austausch fehlgeschlagen." }, { status: 500 });
+      const text = await tokenRes.text();
+      console.error("Discord token error:", tokenRes.status, text);
+      return NextResponse.json({ error: `Token-Austausch fehlgeschlagen: ${tokenRes.status}` }, { status: 500 });
     }
 
     const tokenData = await tokenRes.json();
@@ -50,7 +51,9 @@ export async function GET(request: Request) {
     });
 
     if (!userRes.ok) {
-      return NextResponse.json({ error: "Fehler beim Abrufen der User-Daten." }, { status: 500 });
+      const text = await userRes.text();
+      console.error("Discord user error:", userRes.status, text);
+      return NextResponse.json({ error: `User-Daten fehlgeschlagen: ${userRes.status}` }, { status: 500 });
     }
 
     const user = await userRes.json();
@@ -66,6 +69,7 @@ export async function GET(request: Request) {
 
     return response;
   } catch (err) {
+    console.error("Callback error:", err);
     return NextResponse.json({ error: "Login fehlgeschlagen." }, { status: 500 });
   }
 }
