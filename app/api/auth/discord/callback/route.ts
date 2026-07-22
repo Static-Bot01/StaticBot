@@ -1,0 +1,71 @@
+import { NextResponse } from "next/server";
+
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const code = url.searchParams.get("code");
+  const error = url.searchParams.get("error");
+
+  if (error) {
+    const errorDescription = url.searchParams.get("error_description") || error;
+    return NextResponse.redirect(`/login?error=${encodeURIComponent(errorDescription)}`);
+  }
+
+  if (!code) {
+    return NextResponse.redirect(`/login?error=${encodeURIComponent("Kein Code erhalten.")}`);
+  }
+
+  const clientId = process.env.DISCORD_CLIENT_ID;
+  const clientSecret = process.env.DISCORD_CLIENT_SECRET;
+  const redirectUri = process.env.DISCORD_REDIRECT_URI;
+
+  if (!clientId || !clientSecret || !redirectUri) {
+    return NextResponse.json({ error: "Discord OAuth2 nicht vollständig konfiguriert." }, { status: 500 });
+  }
+
+  try {
+    const body = new URLSearchParams({
+      grant_type: "authorization_code",
+      code,
+      redirect_uri: redirectUri,
+      client_id: clientId,
+      client_secret: clientSecret,
+    });
+
+    const tokenRes = await fetch("https://discord.com/api/oauth2/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    });
+
+    if (!tokenRes.ok) {
+      const data = await tokenRes.json().catch(() => ({}));
+      return NextResponse.json({ error: data.error_description || data.error || "Token-Austausch fehlgeschlagen." }, { status: 500 });
+    }
+
+    const tokenData = await tokenRes.json();
+    const accessToken = tokenData.access_token;
+
+    const userRes = await fetch("https://discord.com/api/users/@me", {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    if (!userRes.ok) {
+      return NextResponse.json({ error: "Fehler beim Abrufen der User-Daten." }, { status: 500 });
+    }
+
+    const user = await userRes.json();
+
+    const response = NextResponse.redirect("/");
+    response.cookies.set("discord_user", JSON.stringify(user), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 30,
+      path: "/",
+    });
+
+    return response;
+  } catch (err) {
+    return NextResponse.json({ error: "Login fehlgeschlagen." }, { status: 500 });
+  }
+}
