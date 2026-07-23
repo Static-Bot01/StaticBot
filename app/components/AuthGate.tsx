@@ -16,16 +16,8 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
   const [isAuthed, setIsAuthed] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await fetch("/api/auth/me", { credentials: "include" });
-        setIsAuthed(res.ok);
-      } catch {
-        setIsAuthed(false);
-      }
-    };
-
-    checkAuth();
+    const user = localStorage.getItem("discord_user");
+    setIsAuthed(!!user);
   }, []);
 
   if (isAuthed === null) {
