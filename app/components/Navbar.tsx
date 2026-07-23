@@ -13,8 +13,9 @@ export default function Navbar() {
     { label: t.nav.dashboard, href: "/dashboard" },
     { label: t.nav.statistics, href: "/#statistiken" },
     { label: t.nav.pricing, href: "/#preise" },
-    { label: t.nav.team, href: "/#team" },
+    { label: t.nav.team, href: "/team" },
     { label: t.nav.faq, href: "/faq" },
+    { label: "Datenbank", href: "/datenbank" },
   ];
 
   const handleLogout = () => {

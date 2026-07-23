@@ -1,0 +1,10 @@
+{
+  "users": [],
+  "servers": [],
+  "stats": [
+    { "id": 1, "label": "Server", "value": "12" },
+    { "id": 2, "label": "Mitglieder", "value": "1.248" },
+    { "id": 3, "label": "Befehle", "value": "38.512" },
+    { "id": 4, "label": "Uptime", "value": "99,9 %" }
+  ]
+}
