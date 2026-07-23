@@ -12,7 +12,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.110.8",
     "@vercel/analytics": "^1.4.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.25.0",
