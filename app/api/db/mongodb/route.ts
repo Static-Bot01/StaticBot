@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 const uri = process.env.MONGODB_URI || "";
 const dbName = process.env.MONGODB_DB || "staticbot";
@@ -33,7 +33,8 @@ export async function GET(request: Request) {
 
     let docs: any[] = [];
     if (searchParams.has("id")) {
-      const doc = await coll.findOne({ _id: searchParams.get("id") });
+      const id = searchParams.get("id");
+      const doc = await coll.findOne({ _id: new ObjectId(id as string) });
       docs = doc ? [doc] : [];
     } else {
       docs = await coll.find({}).toArray();
@@ -89,7 +90,7 @@ export async function DELETE(request: Request) {
     const db = await getDb();
     const coll = db.collection(collection);
 
-    await coll.deleteOne({ _id: id });
+    await coll.deleteOne({ _id: new ObjectId(id) });
 
     return NextResponse.json({ success: true });
   } catch (err) {
