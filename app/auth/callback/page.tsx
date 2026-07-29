@@ -11,11 +11,6 @@ const AuthCallbackClient = dynamic(() => import("./AuthCallbackClient"), {
   ),
 });
 
-export const metadata = {
-  title: "Authentication",
-  robots: { index: false, follow: false },
-};
-
 export default function AuthCallbackPage() {
   return <AuthCallbackClient />;
 }
