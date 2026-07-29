@@ -245,11 +245,6 @@ const dictionaries: Record<Lang, Translations> = {
           role: "Owner",
           image: "/Static-Logos.gif",
         },
-        {
-          name: "Aries",
-          role: "Rolle Management",
-          image: "/Static-Logos.gif",
-        },
       ],
     },
     dashboard: {
@@ -425,11 +420,6 @@ const dictionaries: Record<Lang, Translations> = {
         {
           name: "Lennox",
           role: "Owner",
-          image: "/Static-Logos.gif",
-        },
-        {
-          name: "Aries",
-          role: "Role Management",
           image: "/Static-Logos.gif",
         },
       ],
