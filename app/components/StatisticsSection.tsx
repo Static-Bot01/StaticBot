@@ -29,7 +29,7 @@ export function StatisticsSection() {
               className="flex flex-col items-center text-center rounded-2xl border border-border bg-card/50 p-8 transition hover:bg-accent/20"
             >
               <img
-                src="/staticbots-logo.png"
+                src="/Static-Logos.gif"
                 alt="StaticBots"
                 width={96}
                 height={96}

@@ -238,12 +238,12 @@ const dictionaries: Record<Lang, Translations> = {
         {
           name: "Teo",
           role: "Owner",
-          image: "/staticbots-logo.png",
+          image: "/Static-Logos.gif",
         },
         {
           name: "Lennox",
           role: "Owner",
-          image: "/staticbots-logo.png",
+          image: "/Static-Logos.gif",
         },
       ],
     },
@@ -415,12 +415,12 @@ const dictionaries: Record<Lang, Translations> = {
         {
           name: "Teo",
           role: "Owner",
-          image: "/staticbots-logo.png",
+          image: "/Static-Logos.gif",
         },
         {
           name: "Lennox",
           role: "Owner",
-          image: "/staticbots-logo.png",
+          image: "/Static-Logos.gif",
         },
       ],
     },

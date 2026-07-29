@@ -24,6 +24,10 @@ function base64urlencode(input: ArrayBuffer): string {
     .replace(/=+$/, "");
 }
 
+function setCookie(name: string, value: string, maxAgeSec: number): void {
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAgeSec}; samesite=lax`;
+}
+
 export default function LoginPage() {
   const { t } = useLanguage();
 
@@ -35,14 +39,19 @@ export default function LoginPage() {
 
     const codeVerifier = generateRandomString(64);
     const codeChallenge = base64urlencode(await sha256(codeVerifier));
+    const state = generateRandomString(32);
 
-    sessionStorage.setItem("discord_code_verifier", codeVerifier);
+    setCookie("discord_code_verifier", codeVerifier, 600);
+    setCookie("discord_oauth_state", state, 600);
 
     const params = new URLSearchParams({
       client_id: clientId,
       redirect_uri: redirectUri,
-      response_type: "token",
+      response_type: "code",
       scope: "identify",
+      state,
+      code_challenge: codeChallenge,
+      code_challenge_method: "S256",
     });
 
     window.location.href = `https://discord.com/api/oauth2/authorize?${params.toString()}`;

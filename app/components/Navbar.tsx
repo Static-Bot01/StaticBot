@@ -19,7 +19,7 @@ export default function Navbar() {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem("discord_user");
+    document.cookie = "discord_user=; path=/; max-age=0; samesite=lax";
     window.location.href = "/login";
   };
 
@@ -30,7 +30,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-3">
           <div className="flex items-center justify-center w-12 h-12 border border-border rounded-xl bg-muted">
             <img
-              src="/staticbots-logo.png"
+              src="/Static-Logos.gif"
               alt="StaticBots"
               width={28}
               height={28}
