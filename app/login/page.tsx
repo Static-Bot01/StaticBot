@@ -2,56 +2,20 @@
 
 import { useLanguage } from "../components/LanguageProvider";
 
-function generateRandomString(length: number): string {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
-  let result = "";
-  const values = crypto.getRandomValues(new Uint8Array(length));
-  for (let i = 0; i < length; i++) {
-    result += chars[values[i] % chars.length];
-  }
-  return result;
-}
-
-async function sha256(plain: string): Promise<ArrayBuffer> {
-  const encoder = new TextEncoder();
-  return crypto.subtle.digest("SHA-256", encoder.encode(plain));
-}
-
-function base64urlencode(input: ArrayBuffer): string {
-  return btoa(String.fromCharCode(...new Uint8Array(input)))
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-}
-
-function setCookie(name: string, value: string, maxAgeSec: number): void {
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAgeSec}; samesite=lax`;
-}
-
 export default function LoginPage() {
   const { t } = useLanguage();
 
-  const handleDiscordLogin = async () => {
+  const handleDiscordLogin = () => {
     const clientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID;
     const redirectUri = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI;
 
     if (!clientId || !redirectUri) return;
 
-    const codeVerifier = generateRandomString(64);
-    const codeChallenge = base64urlencode(await sha256(codeVerifier));
-    const state = generateRandomString(32);
-
-    setCookie("discord_code_verifier", codeVerifier, 600);
-    setCookie("discord_oauth_state", state, 600);
-
     const params = new URLSearchParams({
       client_id: clientId,
       redirect_uri: redirectUri,
-      response_type: "code",
+      response_type: "token",
       scope: "identify",
-      state,
-      code_challenge: codeChallenge,
-      code_challenge_method: "S256",
     });
 
     window.location.href = `https://discord.com/api/oauth2/authorize?${params.toString()}`;
