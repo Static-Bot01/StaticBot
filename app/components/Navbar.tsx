@@ -15,7 +15,6 @@ export default function Navbar() {
     { label: t.nav.pricing, href: "/#preise" },
     { label: t.nav.team, href: "/team" },
     { label: t.nav.faq, href: "/faq" },
-    { label: "Datenbank", href: "/datenbank" },
   ];
 
   const handleLogout = () => {
