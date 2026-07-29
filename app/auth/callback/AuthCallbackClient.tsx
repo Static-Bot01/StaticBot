@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+function setCookie(name: string, value: string, maxAgeSec: number): void {
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAgeSec}; samesite=lax`;
+}
+
 export default function AuthCallbackClient() {
   const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
@@ -50,6 +54,7 @@ export default function AuthCallbackClient() {
 
         const user = await userRes.json();
         localStorage.setItem("discord_user", JSON.stringify(user));
+        setCookie("discord_user", JSON.stringify(user), 86400);
         setStatus("success");
         setTimeout(() => {
           window.location.href = "/";
