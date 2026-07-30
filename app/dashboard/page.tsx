@@ -2,25 +2,99 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Plus, Server, Users, Settings, Trash2, ExternalLink } from "lucide-react";
+import { Plus, Server, Users, Settings, Trash2, ExternalLink, RefreshCw } from "lucide-react";
 
-interface Server {
+interface DiscordGuild {
   id: string;
   name: string;
-  icon: string;
-  members: string;
-  addedAt: number;
+  icon: string | null;
+  owner: boolean;
+  permissions: string;
+  approximate_member_count?: number;
 }
 
-const DISCORD_INVITE_URL =
-  "https://discord.com/api/oauth2/authorize?client_id=1528771501975929000&permissions=8&scope=bot";
+const BOT_CLIENT_ID = "1528771501975929000";
+const DISCORD_INVITE_TEMPLATE = `https://discord.com/api/oauth2/authorize?client_id=${BOT_CLIENT_ID}&permissions=8&scope=bot`;
+
+function hasManageGuild(permissions: string): boolean {
+  try {
+    const perms = BigInt(permissions);
+    return (perms & 0x20n) !== 0n;
+  } catch {
+    return false;
+  }
+}
+
+function getGuildIconUrl(guild: DiscordGuild): string {
+  if (guild.icon) {
+    return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`;
+  }
+  return "/Static-Logos.gif";
+}
 
 export default function DashboardPage() {
   const [user, setUser] = useState<{ id: string; username: string; discriminator: string; avatar: string } | null>(null);
-  const [servers, setServers] = useState<Server[]>([]);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [newServerName, setNewServerName] = useState("");
-  const [newServerMembers, setNewServerMembers] = useState("");
+  const [guilds, setGuilds] = useState<DiscordGuild[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState(false);
+
+  const getAccessToken = (): string | null => {
+    try {
+      const hash = window.location.hash;
+      const params = new URLSearchParams(hash.substring(1));
+      const token = params.get("access_token");
+      if (token) return token;
+
+      const userCookie = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("discord_user="));
+      if (userCookie) {
+        const userData = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
+        return userData.access_token || null;
+      }
+    } catch {
+      // ignore
+    }
+    return null;
+  };
+
+  const fetchGuilds = async () => {
+    setLoading(true);
+    setError(null);
+
+    const token = getAccessToken();
+    if (!token) {
+      setError("Nicht angemeldet.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("https://discord.com/api/users/@me/guilds", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          setError("Session abgelaufen. Bitte neu anmelden.");
+        } else {
+          setError(`Fehler: ${res.status}`);
+        }
+        setLoading(false);
+        return;
+      }
+
+      const data: DiscordGuild[] = await res.json();
+      const manageable = data.filter((g) => hasManageGuild(g.permissions));
+      manageable.sort((a, b) => a.name.localeCompare(b.name));
+      setGuilds(manageable);
+    } catch (err) {
+      setError("Fehler beim Laden der Server.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const userCookie = document.cookie
@@ -36,43 +110,14 @@ export default function DashboardPage() {
       }
     }
 
-    const stored = localStorage.getItem("dashboard_servers");
-    if (stored) {
-      try {
-        setServers(JSON.parse(stored));
-      } catch {
-        // ignore
-      }
-    }
+    fetchGuilds();
   }, []);
 
-  const handleInvite = () => {
-    window.open(DISCORD_INVITE_URL, "_blank");
-  };
-
-  const handleAddServer = () => {
-    if (!newServerName.trim()) return;
-
-    const newServer: Server = {
-      id: Date.now().toString(),
-      name: newServerName.trim(),
-      icon: "/Static-Logos.gif",
-      members: newServerMembers.trim() || "0",
-      addedAt: Date.now(),
-    };
-
-    const updated = [...servers, newServer];
-    setServers(updated);
-    localStorage.setItem("dashboard_servers", JSON.stringify(updated));
-    setNewServerName("");
-    setNewServerMembers("");
-    setShowAddForm(false);
-  };
-
-  const handleRemoveServer = (id: string) => {
-    const updated = servers.filter((s) => s.id !== id);
-    setServers(updated);
-    localStorage.setItem("dashboard_servers", JSON.stringify(updated));
+  const handleInvite = (guildId?: string) => {
+    const url = guildId
+      ? `${DISCORD_INVITE_TEMPLATE}&guild_id=${guildId}`
+      : DISCORD_INVITE_TEMPLATE;
+    window.open(url, "_blank");
   };
 
   const getAvatarUrl = () => {
@@ -117,112 +162,111 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <button
-            onClick={handleInvite}
-            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40 transition"
-          >
-            <Plus className="w-4 h-4" />
-            Bot einladen
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={fetchGuilds}
+              disabled={syncing}
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40 transition disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 ${syncing ? "animate-spin" : ""}`} />
+              Aktualisieren
+            </button>
+            <button
+              onClick={() => handleInvite()}
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40 transition"
+            >
+              <Plus className="w-4 h-4" />
+              Bot einladen
+            </button>
+          </div>
         </div>
 
         {/* Servers Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <Server className="w-5 h-5 text-muted-foreground" />
-              <h2 className="text-xl font-semibold text-foreground">Deine Server</h2>
-            </div>
-            <button
-              onClick={() => setShowAddForm(!showAddForm)}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border border-border rounded-lg hover:bg-accent/40 transition"
-            >
-              <Plus className="w-4 h-4" />
-              Server hinzufügen
-            </button>
+        <div>
+          <div className="flex items-center gap-3 mb-6">
+            <Server className="w-5 h-5 text-muted-foreground" />
+            <h2 className="text-xl font-semibold text-foreground">
+              Server mit Admin-Rechten ({guilds.length})
+            </h2>
           </div>
 
-          {/* Add Server Form */}
-          {showAddForm && (
-            <div className="mb-6 p-5 border border-border rounded-2xl bg-card/50">
-              <h3 className="text-sm font-semibold text-foreground mb-4">Neuen Server hinzufügen</h3>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="text"
-                  placeholder="Server Name"
-                  value={newServerName}
-                  onChange={(e) => setNewServerName(e.target.value)}
-                  className="flex-1 px-4 py-2 text-sm border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <input
-                  type="text"
-                  placeholder="Mitglieder (z.B. 1.2k)"
-                  value={newServerMembers}
-                  onChange={(e) => setNewServerMembers(e.target.value)}
-                  className="w-full sm:w-40 px-4 py-2 text-sm border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                />
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-16">
+              <RefreshCw className="w-8 h-8 text-muted-foreground mx-auto mb-4 animate-spin" />
+              <p className="text-muted-foreground">Lade Server…</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && !loading && (
+            <div className="text-center py-16 border border-destructive/30 rounded-2xl bg-destructive/5">
+              <Server className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+              <p className="text-destructive mb-4">{error}</p>
+              {error.includes("neu anmelden") && (
                 <button
-                  onClick={handleAddServer}
-                  className="px-5 py-2 text-sm font-medium border border-border rounded-lg hover:bg-accent/40 transition"
+                  onClick={() => { document.cookie = "discord_user=; path=/; max-age=0"; window.location.href = "/login"; }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40 transition"
                 >
-                  Hinzufügen
+                  Zum Login
                 </button>
-              </div>
+              )}
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!loading && !error && guilds.length === 0 && (
+            <div className="text-center py-16 border border-dashed border-border rounded-2xl">
+              <Server className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground mb-2">Keine Server mit Admin-Rechten gefunden</p>
+              <p className="text-xs text-muted-foreground mb-4">
+                Du benötigst die &quot;Manage Server&quot; Berechtigung auf einem Server, um den Bot einzuladen.
+              </p>
+              <button
+                onClick={() => handleInvite()}
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40 transition"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Bot trotzdem einladen
+              </button>
             </div>
           )}
 
           {/* Server Grid */}
-          {servers.length === 0 ? (
-            <div className="text-center py-16 border border-dashed border-border rounded-2xl">
-              <Server className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground mb-4">Noch keine Server hinzugefügt</p>
-              <button
-                onClick={handleInvite}
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40 transition"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Bot zuerst einladen
-              </button>
-            </div>
-          ) : (
+          {!loading && !error && guilds.length > 0 && (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {servers.map((server) => (
+              {guilds.map((guild) => (
                 <div
-                  key={server.id}
+                  key={guild.id}
                   className="group relative flex items-center gap-4 p-5 border border-border rounded-2xl bg-card/50 hover:bg-accent/20 transition"
                 >
                   <div className="relative size-14 rounded-xl border border-border overflow-hidden shrink-0">
                     <Image
-                      src={server.icon}
-                      alt={server.name}
+                      src={getGuildIconUrl(guild)}
+                      alt={guild.name}
                       fill
                       className="object-cover"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-semibold text-foreground truncate">
-                      {server.name}
+                      {guild.name}
                     </h3>
                     <div className="flex items-center gap-1 mt-1">
-                      <Users className="w-3.5 h-3.5 text-muted-foreground" />
-                      <span className="text-xs text-muted-foreground">
-                        {server.members} Mitglieder
-                      </span>
+                      {guild.owner ? (
+                        <span className="text-xs text-primary">Owner</span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">Admin</span>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
                     <button
+                      onClick={() => handleInvite(guild.id)}
                       className="p-2 border border-border rounded-lg hover:bg-accent/40 transition"
-                      title="Einstellungen"
+                      title="Bot einladen"
                     >
-                      <Settings className="w-4 h-4 text-muted-foreground" />
-                    </button>
-                    <button
-                      onClick={() => handleRemoveServer(server.id)}
-                      className="p-2 border border-border rounded-lg hover:bg-destructive/20 transition"
-                      title="Entfernen"
-                    >
-                      <Trash2 className="w-4 h-4 text-muted-foreground" />
+                      <ExternalLink className="w-4 h-4 text-muted-foreground" />
                     </button>
                   </div>
                 </div>
