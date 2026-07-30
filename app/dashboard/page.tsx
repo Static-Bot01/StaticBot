@@ -41,6 +41,13 @@ export default function DashboardPage() {
 
   const getAccessToken = (): string | null => {
     try {
+      const tokenCookie = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("discord_access_token="));
+      if (tokenCookie) {
+        return decodeURIComponent(tokenCookie.split("=")[1]);
+      }
+
       const userCookie = document.cookie
         .split("; ")
         .find((row) => row.startsWith("discord_user="));
