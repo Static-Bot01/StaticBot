@@ -70,6 +70,18 @@ export default function DashboardPage() {
     return null;
   };
 
+  const debugStorage = () => {
+    const token = getAccessToken();
+    const debug: Record<string, unknown> = {
+      hasToken: !!token,
+      tokenPrefix: token ? token.substring(0, 10) + "..." : null,
+      cookies: document.cookie.split("; ").map((c) => c.split("=")[0]),
+      hasLocalUser: !!localStorage.getItem("discord_user"),
+      hasLocalToken: !!localStorage.getItem("discord_access_token"),
+    };
+    return JSON.stringify(debug, null, 2);
+  };
+
   const fetchGuilds = async () => {
     setLoading(true);
     setError(null);
@@ -214,6 +226,10 @@ export default function DashboardPage() {
             <div className="text-center py-16 border border-destructive/30 rounded-2xl bg-destructive/5">
               <Server className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-destructive mb-4">{error}</p>
+              <details className="text-left text-xs text-muted-foreground mb-4 p-3 border border-border rounded-lg bg-background/50">
+                <summary className="cursor-pointer font-mono mb-2">Debug Info</summary>
+                <pre className="whitespace-pre-wrap">{debugStorage()}</pre>
+              </details>
               {error.includes("neu anmelden") && (
                 <button
                   onClick={() => { document.cookie = "discord_user=; path=/; max-age=0"; window.location.href = "/login"; }}
