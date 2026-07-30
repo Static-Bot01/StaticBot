@@ -294,13 +294,13 @@ export default function DashboardPage() {
                       alt={guild.name}
                       className="w-full h-full object-cover"
                     />
-                    <span
-                      className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-card ${
-                        guild.inGuild ? "bg-emerald-500" : "bg-red-500"
-                      }`}
-                      title={guild.inGuild ? "Bot ist auf dem Server" : "Bot ist nicht auf dem Server"}
-                    />
                   </div>
+                  <span
+                    className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-card ${
+                      guild.inGuild ? "bg-emerald-500" : "bg-red-500"
+                    }`}
+                    title={guild.inGuild ? "Bot ist auf dem Server" : "Bot ist nicht auf dem Server"}
+                  />
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-semibold text-foreground truncate">
                       {guild.name}
