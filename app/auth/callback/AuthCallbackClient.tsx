@@ -54,6 +54,7 @@ export default function AuthCallbackClient() {
 
         const user = await userRes.json();
         localStorage.setItem("discord_user", JSON.stringify(user));
+        localStorage.setItem("discord_access_token", accessToken);
         setCookie("discord_user", JSON.stringify(user), 86400);
         setStatus("success");
         setTimeout(() => {

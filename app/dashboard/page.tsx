@@ -41,18 +41,22 @@ export default function DashboardPage() {
 
   const getAccessToken = (): string | null => {
     try {
-      const hash = window.location.hash;
-      const params = new URLSearchParams(hash.substring(1));
-      const token = params.get("access_token");
-      if (token) return token;
-
       const userCookie = document.cookie
         .split("; ")
         .find((row) => row.startsWith("discord_user="));
       if (userCookie) {
         const userData = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
-        return userData.access_token || null;
+        if (userData.access_token) return userData.access_token;
       }
+
+      const localUser = localStorage.getItem("discord_user");
+      if (localUser) {
+        const userData = JSON.parse(localUser);
+        if (userData.access_token) return userData.access_token;
+      }
+
+      const token = localStorage.getItem("discord_access_token");
+      if (token) return token;
     } catch {
       // ignore
     }
