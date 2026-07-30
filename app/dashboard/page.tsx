@@ -10,6 +10,7 @@ interface DiscordGuild {
   owner: boolean;
   permissions: string;
   approximate_member_count?: number;
+  inGuild?: boolean;
 }
 
 const BOT_CLIENT_ID = "1528771501975929000";
@@ -111,6 +112,28 @@ export default function DashboardPage() {
       const manageable = data.filter((g) => hasManageGuild(g.permissions));
       manageable.sort((a, b) => a.name.localeCompare(b.name));
       setGuilds(manageable);
+
+      if (manageable.length > 0) {
+        const guildIds = manageable.map((g) => g.id).join(",");
+        try {
+          const checkRes = await fetch(`/api/bot/guild?guildId=${guildIds}`);
+          if (checkRes.ok) {
+            const checkData = await checkRes.json();
+            // For bulk check, we'd need individual calls - fallback to parallel
+            const presencePromises = manageable.map((g) =>
+              fetch(`/api/bot/guild?guildId=${g.id}`)
+                .then((r) => r.json())
+                .then((d) => ({ id: g.id, inGuild: d.inGuild }))
+                .catch(() => ({ id: g.id, inGuild: false }))
+            );
+            const results = await Promise.all(presencePromises);
+            const presenceMap = new Map(results.map((r) => [r.id, r.inGuild]));
+            setGuilds((prev) => prev.map((g) => ({ ...g, inGuild: presenceMap.get(g.id) ?? false })));
+          }
+        } catch {
+          // ignore presence check errors
+        }
+      }
     } catch (err) {
       setError("Fehler beim Laden der Server.");
     } finally {
@@ -270,6 +293,12 @@ export default function DashboardPage() {
                       src={getGuildIconUrl(guild)}
                       alt={guild.name}
                       className="w-full h-full object-cover"
+                    />
+                    <span
+                      className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-card ${
+                        guild.inGuild ? "bg-emerald-500" : "bg-red-500"
+                      }`}
+                      title={guild.inGuild ? "Bot ist auf dem Server" : "Bot ist nicht auf dem Server"}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
