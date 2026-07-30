@@ -15,7 +15,7 @@ export default function LoginPage() {
       client_id: clientId,
       redirect_uri: redirectUri,
       response_type: "token",
-      scope: "identify",
+      scope: "identify guilds",
     });
 
     window.location.href = `https://discord.com/api/oauth2/authorize?${params.toString()}`;
