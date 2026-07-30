@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { Plus, Server, Users, Settings, Trash2, ExternalLink, RefreshCw } from "lucide-react";
 
 interface DiscordGuild {
@@ -166,12 +165,11 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-12">
           <div className="flex items-center gap-4">
-            <div className="relative size-14 rounded-full border-2 border-border overflow-hidden">
-              <Image
+            <div className="relative size-16 rounded-full border-2 border-border overflow-hidden shrink-0 bg-muted">
+              <img
                 src={getAvatarUrl()}
                 alt={user?.username || "User"}
-                fill
-                className="object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
             <div>
@@ -267,12 +265,11 @@ export default function DashboardPage() {
                   key={guild.id}
                   className="group relative flex items-center gap-4 p-5 border border-border rounded-2xl bg-card/50 hover:bg-accent/20 transition"
                 >
-                  <div className="relative size-14 rounded-xl border border-border overflow-hidden shrink-0">
-                    <Image
+                  <div className="relative size-14 rounded-xl border border-border overflow-hidden shrink-0 bg-muted">
+                    <img
                       src={getGuildIconUrl(guild)}
                       alt={guild.name}
-                      fill
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
