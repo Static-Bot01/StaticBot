@@ -18,8 +18,8 @@ const DISCORD_INVITE_TEMPLATE = `https://discord.com/api/oauth2/authorize?client
 
 function hasManageGuild(permissions: string): boolean {
   try {
-    const perms = BigInt(permissions);
-    return (perms & 0x20n) !== 0n;
+    const perms = Number(permissions);
+    return (perms & 32) !== 0;
   } catch {
     return false;
   }
