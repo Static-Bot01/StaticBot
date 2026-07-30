@@ -13,7 +13,7 @@ interface DiscordGuild {
   inGuild?: boolean;
 }
 
-const BOT_CLIENT_ID = "1528771501975929000";
+const BOT_CLIENT_ID = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "1528771501975929000";
 const DISCORD_INVITE_TEMPLATE = `https://discord.com/api/oauth2/authorize?client_id=${BOT_CLIENT_ID}&permissions=8&scope=bot`;
 
 function hasManageGuild(permissions: string): boolean {
