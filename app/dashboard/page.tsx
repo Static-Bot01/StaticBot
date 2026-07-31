@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Server, Users, Settings, Trash2, ExternalLink, RefreshCw } from "lucide-react";
+import { Server, RefreshCw } from "lucide-react";
 
 interface DiscordGuild {
   id: string;
@@ -12,9 +12,6 @@ interface DiscordGuild {
   approximate_member_count?: number;
   inGuild?: boolean;
 }
-
-const BOT_CLIENT_ID = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "1528771501975929000";
-const DISCORD_INVITE_TEMPLATE = `https://discord.com/api/oauth2/authorize?client_id=${BOT_CLIENT_ID}&permissions=8&scope=bot`;
 
 function hasManageGuild(permissions: string): boolean {
   try {
@@ -148,13 +145,6 @@ export default function DashboardPage() {
     fetchGuilds();
   }, []);
 
-  const handleInvite = (guildId?: string) => {
-    const url = guildId
-      ? `${DISCORD_INVITE_TEMPLATE}&guild_id=${guildId}`
-      : DISCORD_INVITE_TEMPLATE;
-    window.open(url, "_blank");
-  };
-
   const getAvatarUrl = () => {
     if (!user) return "/Static-Logos.gif";
     if (user.avatar) {
@@ -205,13 +195,6 @@ export default function DashboardPage() {
               <RefreshCw className={`w-4 h-4 ${syncing ? "animate-spin" : ""}`} />
               Aktualisieren
             </button>
-            <button
-              onClick={() => handleInvite()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40 transition"
-            >
-              <Plus className="w-4 h-4" />
-              Bot einladen
-            </button>
           </div>
         </div>
 
@@ -257,16 +240,9 @@ export default function DashboardPage() {
             <div className="text-center py-16 border border-dashed border-border rounded-2xl">
               <Server className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-muted-foreground mb-2">Keine Server mit Admin-Rechten gefunden</p>
-              <p className="text-xs text-muted-foreground mb-4">
-                Du benötigst die &quot;Manage Server&quot; Berechtigung auf einem Server, um den Bot einzuladen.
+              <p className="text-xs text-muted-foreground">
+                Du benötigst die &quot;Manage Server&quot; Berechtigung auf einem Server.
               </p>
-              <button
-                onClick={() => handleInvite()}
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40 transition"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Bot trotzdem einladen
-              </button>
             </div>
           )}
 
@@ -302,15 +278,6 @@ export default function DashboardPage() {
                         <span className="text-xs text-muted-foreground">Admin</span>
                       )}
                     </div>
-                  </div>
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
-                    <button
-                      onClick={() => handleInvite(guild.id)}
-                      className="p-2 border border-border rounded-lg hover:bg-accent/40 transition"
-                      title="Bot einladen"
-                    >
-                      <ExternalLink className="w-4 h-4 text-muted-foreground" />
-                    </button>
                   </div>
                 </div>
               ))}
