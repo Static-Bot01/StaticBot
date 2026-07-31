@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Server, RefreshCw } from "lucide-react";
+import { Server, RefreshCw } from "lucide-react";
 
 interface DiscordGuild {
   id: string;
@@ -12,9 +12,6 @@ interface DiscordGuild {
   approximate_member_count?: number;
   inGuild?: boolean;
 }
-
-const BOT_CLIENT_ID = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "1528771501975929000";
-const DISCORD_INVITE_URL = `https://discord.com/api/oauth2/authorize?client_id=${BOT_CLIENT_ID}&permissions=8&scope=bot`;
 
 function hasManageGuild(permissions: string): boolean {
   try {
@@ -148,10 +145,6 @@ export default function DashboardPage() {
     fetchGuilds();
   }, []);
 
-  const handleInvite = () => {
-    window.open(DISCORD_INVITE_URL, "_blank");
-  };
-
   const getAvatarUrl = () => {
     if (!user) return "/Static-Logos.gif";
     if (user.avatar) {
@@ -201,13 +194,6 @@ export default function DashboardPage() {
             >
               <RefreshCw className={`w-4 h-4 ${syncing ? "animate-spin" : ""}`} />
               Aktualisieren
-            </button>
-            <button
-              onClick={handleInvite}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium border border-border rounded-xl bg-card/50 hover:bg-accent/40 transition"
-            >
-              <Plus className="w-4 h-4" />
-              Bot einladen
             </button>
           </div>
         </div>
