@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Server, RefreshCw } from "lucide-react";
+import { Server, RefreshCw, ExternalLink } from "lucide-react";
 
 interface DiscordGuild {
   id: string;
@@ -12,6 +12,8 @@ interface DiscordGuild {
   approximate_member_count?: number;
   inGuild?: boolean;
 }
+
+const BOT_CLIENT_ID = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "1528771501975929000";
 
 function hasManageGuild(permissions: string): boolean {
   try {
@@ -144,6 +146,13 @@ export default function DashboardPage() {
 
     fetchGuilds();
   }, []);
+
+  const handleInvite = (guildId?: string) => {
+    const url = guildId
+      ? `https://discord.com/api/oauth2/authorize?client_id=${BOT_CLIENT_ID}&permissions=8&scope=bot&guild_id=${guildId}`
+      : `https://discord.com/api/oauth2/authorize?client_id=${BOT_CLIENT_ID}&permissions=8&scope=bot`;
+    window.open(url, "_blank");
+  };
 
   const getAvatarUrl = () => {
     if (!user) return "/Static-Logos.gif";
@@ -279,6 +288,13 @@ export default function DashboardPage() {
                       )}
                     </div>
                   </div>
+                  <button
+                    onClick={() => handleInvite(guild.id)}
+                    className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg bg-accent/20 hover:bg-accent/40 transition"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Bot einladen
+                  </button>
                 </div>
               ))}
             </div>
