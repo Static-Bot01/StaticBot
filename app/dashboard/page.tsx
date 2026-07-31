@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Server, RefreshCw, ExternalLink } from "lucide-react";
+import { Server, RefreshCw } from "lucide-react";
 
 interface DiscordGuild {
   id: string;
@@ -276,7 +276,10 @@ export default function DashboardPage() {
                     }`}
                     title={guild.inGuild ? "Bot ist auf dem Server" : "Bot ist nicht auf dem Server"}
                   />
-                  <div className="flex-1 min-w-0">
+                  <div
+                    className="flex-1 min-w-0 cursor-pointer"
+                    onClick={() => handleInvite(guild.id)}
+                  >
                     <h3 className="text-sm font-semibold text-foreground truncate">
                       {guild.name}
                     </h3>
@@ -288,13 +291,6 @@ export default function DashboardPage() {
                       )}
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleInvite(guild.id)}
-                    className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg bg-accent/20 hover:bg-accent/40 transition"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    Bot einladen
-                  </button>
                 </div>
               ))}
             </div>
