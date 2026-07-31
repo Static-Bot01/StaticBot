@@ -111,29 +111,19 @@ export default function DashboardPage() {
       const data: DiscordGuild[] = await res.json();
       const manageable = data.filter((g) => hasManageGuild(g.permissions));
       manageable.sort((a, b) => a.name.localeCompare(b.name));
-      setGuilds(manageable);
 
-      if (manageable.length > 0) {
-        const guildIds = manageable.map((g) => g.id).join(",");
-        try {
-          const checkRes = await fetch(`/api/bot/guild?guildId=${guildIds}`);
-          if (checkRes.ok) {
-            const checkData = await checkRes.json();
-            // For bulk check, we'd need individual calls - fallback to parallel
-            const presencePromises = manageable.map((g) =>
-              fetch(`/api/bot/guild?guildId=${g.id}`)
-                .then((r) => r.json())
-                .then((d) => ({ id: g.id, inGuild: d.inGuild }))
-                .catch(() => ({ id: g.id, inGuild: false }))
-            );
-            const results = await Promise.all(presencePromises);
-            const presenceMap = new Map(results.map((r) => [r.id, r.inGuild]));
-            setGuilds((prev) => prev.map((g) => ({ ...g, inGuild: presenceMap.get(g.id) ?? false })));
-          }
-        } catch {
-          // ignore presence check errors
-        }
+      const botGuildsRes = await fetch("/api/bot/guild");
+      let botGuildIds: string[] = [];
+      if (botGuildsRes.ok) {
+        const botData = await botGuildsRes.json();
+        botGuildIds = botData.guildIds || [];
       }
+
+      const guildsWithPresence = manageable.map((g) => ({
+        ...g,
+        inGuild: botGuildIds.includes(g.id),
+      }));
+      setGuilds(guildsWithPresence);
     } catch (err) {
       setError("Fehler beim Laden der Server.");
     } finally {
